@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./superhero-backend
+      dockerfile: Dockerfile
+    ports:
+      - "3001:3000"
+    environment:
+      - PORT=3000
+    networks:
+      - superhero-network
+
+  frontend:
+    build:
+      context: ./superhero-frontend
+      dockerfile: Dockerfile
+    ports:
+      - "5173:4173"
+    environment:
+      - .env.production
+    depends_on:
+      - backend
+    networks:
+      - superhero-network
+
+networks:
+  superhero-network:
+    driver: bridge
